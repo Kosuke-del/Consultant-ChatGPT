@@ -33,5 +33,27 @@ def index():
 
     return render_template('index.html')
 
+@app.route('/retry', methods=['POST'])
+def retry():
+    """
+    Processes user input to summarize text again.
+
+    Returns:
+        Returns the result of the text summary in the result.html template.
+    """
+    text = request.form['text']
+    max_length = request.form['max_length']
+
+    res = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": f"Think step by step and summarize.「{text}」"},
+        ]
+    )
+    res_content = res["choices"][0]["message"]["content"]
+
+    return render_template('result.html', result=res_content)
+
 if __name__ == '__main__':
     app.run()
