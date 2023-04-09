@@ -1,18 +1,20 @@
+"""
+This is a file to summarize sentences.
+"""
+
 import openai
 
-input_file = input("要約したい対象のファイルのパス: ")
-with open(input_file, encoding='utf-8') as f:
-    text = f.read()
+text = input("要約したい文章を入力してください: ")
 
 res = openai.ChatCompletion.create(
     model="gpt-3.5-turbo",
     messages=[
         {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": f"この文章を要約してください。「{text}」"},
+        {"role": "user", "content": "Summarize these sentences in 50 words.「{text}」"},
     ]
 )
 res_content = res["choices"][0]["message"]["content"]
 
-with open("output.txt", "w") as f:
+with open("output.txt1", encoding='utf-8' "w") as f:
     f.write(res_content)
     
